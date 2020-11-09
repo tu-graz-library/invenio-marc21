@@ -35,7 +35,7 @@ tests_require = [
 
 # Should follow inveniosoftware/invenio versions
 invenio_db_version = ">=1.0.4,<2.0.0"
-invenio_search_version = ">=1.4.0,<2.0.0"
+invenio_search_version = ">=1.0.0,<2.0.0"
 
 extras_require = {
     'docs': [

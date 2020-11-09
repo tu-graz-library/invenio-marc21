@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2018 CERN.
+# Copyright (C) 2020 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -91,9 +92,9 @@ setup(
     long_description=readme + '\n\n' + history,
     keywords='invenio MARC21',
     license='MIT',
-    author='CERN',
-    author_email='info@inveniosoftware.org',
-    url='https://github.com/inveniosoftware/invenio-marc21',
+    author='Graz University of Technology',
+    author_email='info@tugraz.at',
+    url='https://github.com/tu-graz-library/invenio-marc21',
     packages=packages,
     zip_safe=False,
     include_package_data=True,
@@ -124,10 +125,10 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         'Programming Language :: Python :: Implementation :: CPython',
         'Development Status :: 5 - Production/Stable',
     ],

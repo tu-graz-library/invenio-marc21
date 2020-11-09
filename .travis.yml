@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2018 CERN.
+# Copyright (C) 2020 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -13,15 +14,19 @@ sudo: false
 
 language: python
 
+matrix:
+  fast_finish: true
+  allow_failures:
+    # To allow failures, you need to specify the full environment
+    - REQUIREMENTS=devel
+
 cache:
   - pip
 
 env:
   global:
-    - ES5_DOWNLOAD_URL="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.16.tar.gz"
-    - ES6_DOWNLOAD_URL="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.1.tar.gz"
-    - ES7_DOWNLOAD_URL="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.2.0-linux-x86_64.tar.gz"
-    - ES_HOST=127.0.0.1
+    - DOCKER_COMPOSE_VERSION=1.26.2
+    - SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://invenio:invenio@localhost:5432/invenio"
   matrix:
     - REQUIREMENTS=lowest EXTRAS=all,elasticsearch5 ES_URL=$ES5_DOWNLOAD_URL
     - REQUIREMENTS=lowest EXTRAS=all,elasticsearch6 ES_URL=$ES6_DOWNLOAD_URL
@@ -31,9 +36,21 @@ env:
     - REQUIREMENTS=devel EXTRAS=all,elasticsearch7 ES_URL=$ES7_DOWNLOAD_URL
 
 python:
-  - "2.7"
-  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
 
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - "travis_retry pip install --upgrade pip setuptools py"
+  - "travis_retry pip install twine wheel coveralls requirements-builder"
+  - "requirements-builder -e $EXTRAS --level=min setup.py > .travis-lowest-requirements.txt"
+  - "requirements-builder -e $EXTRAS --level=pypi setup.py > .travis-release-requirements.txt"
+  - "requirements-builder -e $EXTRAS --level=dev --req requirements-devel.txt setup.py > .travis-devel-requirements.txt"
+  
 matrix:
   fast_finish: true
   allow_failures:
@@ -51,29 +68,18 @@ before_install:
   - "requirements-builder -e $EXTRAS --level=pypi setup.py > .travis-release-requirements.txt"
   - "requirements-builder -e $EXTRAS --level=dev --req requirements-devel.txt setup.py > .travis-devel-requirements.txt"
 
+
 install:
   - "travis_retry pip install -r .travis-${REQUIREMENTS}-requirements.txt"
-  - "travis_retry pip install -e .[${EXTRAS}]"
-
+  - "travis_retry pip install -e .[all]"
+  - "pip freeze"
+  
 before_script:
-  # Allow ES to start
-  - sleep 5
-  - curl http://127.0.0.1:9200 && echo "Elasticsearch is up!" || cat /tmp/local-es.log
-
+  - "docker --version"
+  - "docker-compose --version"
+  
 script:
   - "./run-tests.sh"
-
+  
 after_success:
   - coveralls
-
-deploy:
-  provider: pypi
-  user: inveniosoftware
-  password:
-    secure: "rBB4WpQDeWqt9xyqXENI/VodBLgOnuPuXIURSBvT+CItWe7dvjGqbWJAbMTZgemaDA9RxQfyIFnFTUkE62AnttxHW39n6UiG+lZgNNdZot8SxYzV6Lza9CdBGMEXwJ9FSf8mer9GIgfO993muKNztt4eFx3aob19Eia2Ob5sgq88Vu7ROxL2+XqM4HT36uh/Q84zcMobYbd5ToM14QNfg65/gtT26hh42KHhCSbS2JZjrudQcM7LCcZWXDs48+dTk4KuAUCUhsbIXlGc1mrxttswocPyk9V0Yhp34JHPqZVAyBI3mtnjKJ6zQB3LpCKuI4hmpv/i8kbay96f7Y49pT7FVXbV+byglyXXrFLHa+/VxkSBpSTyaQjXmctAdvajQjwYN2nKCQXngTAd8O4dgg6xq6e8z5WNFVJAsR5CQ/nYquSQgNamaB6dTEr2sZRrP6KnftzI/uYY9h762qOhkcomNmz9hvw2/yQSTc2xItsdtROsbR4zf5+N2J3vbh3Fr1K/PDkQRdHBTxBs/J3irqps7s2Fl7Sd1O093Y1CZK2Qhyge3poL3JRdDwKjTKqNW2BK+UuUJBzPgwI9t82vIPqTLOkm1bRcmESuh3UMb+sRiZGyNsINKin6htsDIFZDKMs5poeIQq4vm2kKM4GD1zni+cTrGs72/CpTL1zBQuo="
-  on:
-    tags: true
-    python: "3.5"
-    distributions: compile_catalog sdist bdist_wheel
-    repo: inveniosoftware/invenio-marc21
-    condition: $DEPLOY = true

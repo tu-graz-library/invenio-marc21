@@ -10,7 +10,7 @@
 """Module tests."""
 
 from __future__ import absolute_import, print_function
-
+import pytest
 import mock
 import pkg_resources
 from dojson.contrib.marc21 import marc21
@@ -74,6 +74,7 @@ def load_records(es_app, filename, schema):
                                       id=record['_id'])
 
 
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_authority_data(es_app, request):
     """Test indexation using authority data."""
     schema = ('http://localhost:5000/'
@@ -82,6 +83,7 @@ def test_authority_data(es_app, request):
                  schema=schema)
 
 
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_bibliographic_data(es_app, request):
     """Test indexation using bibliographic data."""
     schema = ('http://localhost:5000/'

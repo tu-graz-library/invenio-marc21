@@ -41,9 +41,6 @@ extras_require = {
     'docs': [
         'Sphinx>=1.5.2',
     ],
-    'elasticsearch6': [
-        'invenio-search[elasticsearch6]>={}'.format(invenio_search_version),
-    ],
     'elasticsearch7': [
         'invenio-search[elasticsearch7]>={}'.format(invenio_search_version),
     ],
@@ -56,7 +53,7 @@ extras_require = {
 extras_require['all'] = []
 for name, reqs in extras_require.items():
     if name[0] == ':' or name in (
-            'elasticsearch6', 'elasticsearch7', 'postgresql'):
+            'elasticsearch7', 'postgresql'):
         continue
     extras_require['all'].extend(reqs)
 

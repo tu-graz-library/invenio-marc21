@@ -13,6 +13,7 @@ import signal
 import subprocess
 import sys
 import time
+import pytest
 
 import pkg_resources
 
@@ -33,6 +34,7 @@ def teardown_module():
         assert exit_status == 0
 
 
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_example_app():
     """Test example app."""
     source = pkg_resources.resource_filename('invenio_records',

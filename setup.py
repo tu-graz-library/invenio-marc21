@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2018 CERN.
+# Copyright (C) 2020 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -32,18 +33,13 @@ tests_require = [
     'pytest>=4.6.4,<5.0.0',
 ]
 
-invenio_search_version = '1.2.0'
+# Should follow inveniosoftware/invenio versions
+invenio_db_version = ">=1.0.4,<2.0.0"
+invenio_search_version = ">=1.4.0,<2.0.0"
 
 extras_require = {
     'docs': [
         'Sphinx>=1.5.2',
-    ],
-    # Elasticsearch version
-    'elasticsearch2': [
-        'invenio-search[elasticsearch2]>={}'.format(invenio_search_version),
-    ],
-    'elasticsearch5': [
-        'invenio-search[elasticsearch5]>={}'.format(invenio_search_version),
     ],
     'elasticsearch6': [
         'invenio-search[elasticsearch6]>={}'.format(invenio_search_version),
@@ -51,13 +47,16 @@ extras_require = {
     'elasticsearch7': [
         'invenio-search[elasticsearch7]>={}'.format(invenio_search_version),
     ],
+     "postgresql": [
+        "invenio-db[postgresql,versioning]{}".format(invenio_db_version),
+    ],
     'tests': tests_require,
 }
 
 extras_require['all'] = []
 for name, reqs in extras_require.items():
     if name[0] == ':' or name in (
-            'elasticsearch2', 'elasticsearch5', 'elasticsearch6', 'elasticsearch7'):
+            'elasticsearch6', 'elasticsearch7', 'postgresql'):
         continue
     extras_require['all'].extend(reqs)
 
@@ -73,6 +72,7 @@ install_requires = [
     'invenio-jsonschemas>=1.0.0',
     'invenio-records-rest>=1.0.0',
     'invenio-records-ui>=1.0.0',
+
 ]
 
 packages = find_packages()
@@ -91,9 +91,9 @@ setup(
     long_description=readme + '\n\n' + history,
     keywords='invenio MARC21',
     license='MIT',
-    author='CERN',
-    author_email='info@inveniosoftware.org',
-    url='https://github.com/inveniosoftware/invenio-marc21',
+    author='Graz University of Technology',
+    author_email='info@tugraz.at',
+    url='https://github.com/tu-graz-library/invenio-marc21',
     packages=packages,
     zip_safe=False,
     include_package_data=True,
@@ -124,10 +124,9 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         'Programming Language :: Python :: Implementation :: CPython',
         'Development Status :: 5 - Production/Stable',
     ],

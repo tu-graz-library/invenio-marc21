@@ -48,7 +48,7 @@ class MARCXMLSerializer(DoJSONSerializer):
         :returns: The object serialized.
         """
         if self.schema_class:
-            obj = dict(self.schema_class().dump(obj).items())
+            obj = self.schema_class().dump(obj)
         else:
             obj = obj['metadata']
         return super(MARCXMLSerializer, self).dump(obj)

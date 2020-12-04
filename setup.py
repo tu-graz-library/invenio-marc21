@@ -22,7 +22,7 @@ tests_require = [
     "invenio-indexer>=1.1.0",
     "invenio-pidstore>=1.0.0",
     "invenio-records>=1.0.0",
-    "pytest-invenio>=1.4.0",
+    "SQLAlchemy-Continuum>=1.3.11",
 ]
 
 # Should follow inveniosoftware/invenio versions

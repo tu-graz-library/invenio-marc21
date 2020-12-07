@@ -13,17 +13,17 @@ import os
 
 from setuptools import find_packages, setup
 
-
 readme = open("README.rst").read()
 history = open("CHANGES.rst").read()
 
 tests_require = [
-    "invenio-db>=1.0.0",
-    "invenio-i18n>=1.0.0",
+    "invenio-db>=1.0.6",
+    "invenio-i18n>=1.2.0",
     "invenio-indexer>=1.1.0",
-    "invenio-pidstore>=1.0.0",
-    "invenio-records>=1.0.0",
+    "invenio_search>=1.3.1",
     "pytest-invenio>=1.4.0",
+    "elasticsearch_dsl>=7.2.1",
+    "SQLAlchemy-Continuum>=1.3.11",
 ]
 
 # Should follow inveniosoftware/invenio versions
@@ -56,11 +56,17 @@ setup_requires = [
 
 install_requires = [
     "Flask>=0.11.1",
-    "Flask-BabelEx>=0.9.3",
+    "Flask-BabelEx>=0.9.4",
     "dojson>=1.3.0",
     "invenio-jsonschemas>=1.0.0",
-    "invenio-records-rest>=1.0.0",
-    "invenio-records-ui>=1.0.0",
+    "invenio-records>=1.4.0a4,<2.0.0",
+    "invenio-records-files>=1.2.1,<2.0.0",
+    "invenio-records-ui>=1.2.0a1,<2.0.0",
+    "invenio-previewer>=1.2.1,<2.0.0",
+    # until fix in invenio-previewer is released
+    "nbconvert[execute]>=4.1.0,<6.0.0",
+    # TODO: Get from invenio-base
+    "six>=1.12.0",  # Needed to pass CI tests
 ]
 
 packages = find_packages()

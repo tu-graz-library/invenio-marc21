@@ -13,7 +13,6 @@ import os
 
 from setuptools import find_packages, setup
 
-
 readme = open("README.rst").read()
 history = open("CHANGES.rst").read()
 
@@ -23,7 +22,7 @@ tests_require = [
     "invenio-indexer>=1.1.0",
     "invenio-pidstore>=1.0.0",
     "invenio-records>=1.0.0",
-    "pytest-invenio>=1.4.0",
+    "SQLAlchemy-Continuum>=1.3.11",
 ]
 
 # Should follow inveniosoftware/invenio versions
@@ -32,7 +31,7 @@ invenio_search_version = ">=1.4.0,<2.0.0"
 
 extras_require = {
     "docs": [
-        "Sphinx>=1.5.2",
+        "Sphinx>=2.4",
     ],
     "elasticsearch7": [
         "invenio-search[elasticsearch7]>={}".format(invenio_search_version),
@@ -59,8 +58,14 @@ install_requires = [
     "Flask-BabelEx>=0.9.3",
     "dojson>=1.3.0",
     "invenio-jsonschemas>=1.0.0",
-    "invenio-records-rest>=1.0.0",
-    "invenio-records-ui>=1.0.0",
+    "invenio-records>=1.4.0a4,<2.0.0",
+    "invenio-records-files>=1.2.1,<2.0.0",
+    "invenio-records-ui>=1.2.0a1,<2.0.0",
+    "invenio-previewer>=1.2.1,<2.0.0",
+    # until fix in invenio-previewer is released
+    "nbconvert[execute]>=4.1.0,<6.0.0",
+    # TODO: Get from invenio-base
+    "six>=1.12.0",  # Needed to pass CI tests
 ]
 
 packages = find_packages()
@@ -90,6 +95,9 @@ setup(
         "invenio_base.apps": [
             "invenio_marc21 = invenio_marc21:InvenioMARC21",
         ],
+        "invenio_base.api_apps": [
+            "invenio_marc21 = invenio_marc21:InvenioMARC21",
+        ],
         "invenio_i18n.translations": [
             "messages = invenio_marc21",
         ],
@@ -98,6 +106,9 @@ setup(
         ],
         "invenio_search.mappings": [
             "marc21 = invenio_marc21.mappings",
+        ],
+        "invenio_config.module": [
+            "invenio_marc21 = invenio_marc21.config",
         ],
     },
     extras_require=extras_require,

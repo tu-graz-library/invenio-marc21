@@ -11,6 +11,8 @@
 
 from __future__ import absolute_import, print_function
 
+from werkzeug.utils import cached_property
+
 from . import config
 from .views import blueprint
 
@@ -46,4 +48,8 @@ class InvenioMARC21(object):
         )
         for k in dir(config):
             if k.startswith("MARC21_"):
+                if k == "MARC21_REST_ENDPOINTS":
+                    # Make sure of registration process.
+                    app.config.setdefault("RECORDS_REST_ENDPOINTS", {})
+                    app.config["RECORDS_REST_ENDPOINTS"].update(getattr(config, k))
                 app.config.setdefault(k, getattr(config, k))

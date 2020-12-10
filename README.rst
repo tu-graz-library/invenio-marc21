@@ -13,8 +13,8 @@
 .. image:: https://img.shields.io/github/license/tu-graz-library/invenio-marc21.svg
         :target: https://github.com/tu-graz-library/invenio-marc21/blob/master/LICENSE
 
-.. image:: https://img.shields.io/travis/tu-graz-library/invenio-marc21.svg
-        :target: https://travis-ci.org/tu-graz-library/invenio-marc21
+.. image:: https://github.com/tu-graz-library/invenio-marc21/workflows/CI/badge.svg
+        :target: https://github.com/tu-graz-library/invenio-marc21/actions
 
 .. image:: https://img.shields.io/coveralls/tu-graz-library/invenio-marc21.svg
         :target: https://coveralls.io/r/tu-graz-library/invenio-marc21

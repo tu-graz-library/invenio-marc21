@@ -52,5 +52,4 @@ class InvenioMARC21(object):
                     # Make sure of registration process.
                     app.config.setdefault("RECORDS_REST_ENDPOINTS", {})
                     app.config["RECORDS_REST_ENDPOINTS"].update(getattr(config, k))
-
                 app.config.setdefault(k, getattr(config, k))

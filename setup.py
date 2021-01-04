@@ -24,8 +24,7 @@ tests_require = [
     "pytest-invenio>=1.4.0",
     "elasticsearch_dsl>=7.2.1",
     "SQLAlchemy-Continuum>=1.3.11",
-    # TODO: remove once a new release is out
-    "docker-services-cli>=0.2.1,<0.3.0",
+    "mock>=4.0.3",
 ]
 
 # Should follow inveniosoftware/invenio versions
@@ -34,7 +33,7 @@ invenio_search_version = ">=1.4.0,<2.0.0"
 
 extras_require = {
     "docs": [
-        "Sphinx>=1.5.2",
+        "Sphinx>=3",
     ],
     "elasticsearch7": [
         "invenio-search[elasticsearch7]{}".format(invenio_search_version),
